@@ -444,7 +444,7 @@ class RoomsController < ApplicationController
     limit = current_user.global_max_participants
 
     user_participants = opts[:max_participants].to_i
-    current_user.rooms.each do |room|
+    current_user.rooms.reject{ |room| room[:uid] == opts[:room_uid] }.each do |room|
       user_participants += (JSON.parse(room[:room_settings])["maxParticipants"].to_i || 0)
     end
 

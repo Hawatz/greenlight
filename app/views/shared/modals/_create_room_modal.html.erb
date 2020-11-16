@@ -24,10 +24,8 @@
           </div>
 
           <%= form_for(:room, url: rooms_path) do |f| %>
-            <div class="input-icon mb-2">
-              <span class="input-icon-addon">
-                <i class="fas fa-chalkboard-teacher"></i>
-              </span>
+            <div class="mb-2">
+              <span class="custom-switch-description"><%= t("modal.room_settings.name")%></span>
               <%= f.text_field :name, id: "create-room-name", class: "form-control text-center", value: "", placeholder: t("modal.create_room.name_placeholder"), autocomplete: :off, required: true %>
               <div class="invalid-feedback text-left"><%= t("modal.create_room.not_blank") %></div>
             </div>
@@ -45,10 +43,8 @@
 
             <% max_participants = room_configuration("Room Configuration Max Participants") %>
             <% if max_participants != "disabled" %>
-              <div class="input-icon mb-2">
-                <span class="input-icon-addon">
-                  <i class="fas fa-chalkboard-teacher"></i>
-                </span>
+              <div class="mb-2">
+                <span class="custom-switch-description"><%= t("modal.room_settings.max_participants")%></span>
                 <%= f.text_field :max_participants, id: "create-room-max-participants", class: "form-control text-center", type: "number", min: 1, value: "", placeholder: t("modal.create_room.max_participants_placeholder"), autocomplete: :off, required: true %>
                 <div class="invalid-feedback text-left"><%= t("modal.create_room.not_blank") %></div>
               </div>
@@ -56,10 +52,8 @@
 
             <% duration = room_configuration("Room Configuration Duration") %>
             <% if duration != "disabled" %>
-              <div class="input-icon mb-2">
-                <span class="input-icon-addon">
-                  <i class="fas fa-chalkboard-teacher"></i>
-                </span>
+              <div class="mb-2">
+                <span class="custom-switch-description"><%= t("modal.room_settings.duration")%></span>
                 <%= f.text_field :duration, id: "create-room-duration", class: "form-control text-center", type: "number", value: "", min: 1, placeholder: t("modal.create_room.duration_placeholder"), autocomplete: :off, required: true %>
                 <div class="invalid-feedback text-left"><%= t("modal.create_room.not_blank") %></div>
               </div>
@@ -67,10 +61,8 @@
 
             <% welcome = room_configuration("Room Configuration Welcome Message") %>
             <% if welcome != "disabled" %>
-              <div class="input-icon mb-2">
-                <span class="input-icon-addon">
-                  <i class="fas fa-chalkboard-teacher"></i>
-                </span>
+              <div class="mb-2">
+                  <span class="custom-switch-description"><%= t("modal.room_settings.welcome")%></span>
                   <%= f.text_field :welcome, id: "create-room-welcome", class: "form-control text-center", value: "", placeholder: t("modal.create_room.welcome_placeholder"), autocomplete: :off, required: false %>
                 <div class="invalid-feedback text-left"><%= t("modal.create_room.not_blank") %></div>
               </div>
@@ -94,8 +86,7 @@
               </label>
             <% end %>
             
-            <% any_start = room_configuration("Room Configuration Allow Any Start") %>
-            <% if any_start != "disabled" %>
+
               <label class="custom-switch pl-0 mt-3 mb-3 w-100 text-left d-inline-block <%= "enabled-setting" if any_start == "enabled" %>">
                 <span class="custom-switch-description"><%= t("modal.room_settings.start")%></span>
                 <%= f.check_box :anyone_can_start, class: "custom-switch-input", data: { default: any_start == "enabled" }, checked: false %>

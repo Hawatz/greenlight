@@ -442,6 +442,10 @@ en:
       start: Allow any user to start this meeting
       footer_text: Adjustment to your room can be done at anytime.
       recording: Allow room to be recorded
+      name: Room Name
+      max_participants: Max Participants
+      duration: Duration
+      welcome: Welcome Message
     rename_room:
       name_placeholder: Enter a new room name...
     share_access:
