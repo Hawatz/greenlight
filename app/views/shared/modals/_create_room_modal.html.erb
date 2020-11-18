@@ -86,7 +86,8 @@
               </label>
             <% end %>
             
-
+            <% any_start = room_configuration("Room Configuration Allow Any Start") %>	
+            <% if any_start != "disabled" %>
               <label class="custom-switch pl-0 mt-3 mb-3 w-100 text-left d-inline-block <%= "enabled-setting" if any_start == "enabled" %>">
                 <span class="custom-switch-description"><%= t("modal.room_settings.start")%></span>
                 <%= f.check_box :anyone_can_start, class: "custom-switch-input", data: { default: any_start == "enabled" }, checked: false %>
