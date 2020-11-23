@@ -1,0 +1,22 @@
+<div class="modal fade" id="deletePlanModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content text-center">
+      <div class="modal-body">
+        <div class="card-body p-6">
+          <div class="card-title">
+            <h3>"Delete This Plan?"</h3>
+          </div>
+
+          <button type="button" class="btn btn-info my-1 btn-del-room" data-dismiss="modal">
+            <%= t("administrator.plans.keep") %>
+          </button>
+
+          <%= button_to admin_delete_billing_plan_path, method: :delete, id: "delete-confirm", class: "btn btn-danger my-1 btn-del-room", "data-disable": "" do %>
+            <%= t("administrator.plans.delete") %>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

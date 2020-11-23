@@ -325,6 +325,47 @@ class AdminsController < ApplicationController
     redirect_to admin_roles_path
   end
 
+  def billing_plans
+    billing_plans =
+      if ["admin", "super_admin"].include?(current_user.role.name)
+         BillingPlan.all
+      else
+         BillingPlan.where(hidden: false)
+      end
+
+    @pagy, @billing_plans = pagy(billing_plans)
+  end
+
+  def new_billing_plan
+    permitted = params[:billing_plan].permit(:price, :global_max_duration, :global_max_participants, :name, :unlimited_duration)
+    billing_plan = BillingPlan.new(permitted)
+    billing_plan.save!
+    redirect_to admin_billing_plans_path, flash: { success: I18n.t("administrator.plans.created") }
+  end
+
+  def delete_billing_plan
+    permitted = params.permit(:billing_plan_id)
+    billing_plan = BillingPlan.find(permitted[:billing_plan_id])
+    if billing_plan.users.count.positive?
+      flash[:alert] = I18n.t("administrator.plans.users_in_plan")
+      return redirect_to admin_billing_plans_path
+    elsif billing_plan.id == 1
+      flash[:alert] = I18n.t("administrator.plans.default_plan")
+      return redirect_to admin_billing_plans_path
+    else
+      billing_plan.delete
+    end
+
+    redirect_to admin_billing_plans_path, flash: { success: I18n.t("administrator.plans.deleted") }
+  end
+
+  def change_billing_plan_status
+    permitted = params.permit(:billing_plan_id, :hidden)
+    billing_plan = BillingPlan.find(permitted[:billing_plan_id])
+    billing_plan.update({hidden: permitted[:hidden]})
+    redirect_to admin_billing_plans_path, flash: { success: I18n.t("administrator.plans.status_changed")}
+  end
+
   private
 
   def find_user

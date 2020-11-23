@@ -18,6 +18,10 @@ $(document).on('turbolinks:load', function(){
   var controller = $("body").data('controller');
   var action = $("body").data('action');
 
+  $("#newPlanButton").click(function(){
+    $("#createPlan").val("")
+  })
+
   // Only run on the admins page.
   if (controller == "admins") {
     if(action == "index") {

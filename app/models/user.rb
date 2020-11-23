@@ -21,6 +21,8 @@ require 'bbb_api'
 class User < ApplicationRecord
   include Deleteable
 
+  after_initialize :setup
+
   after_create :setup_user
 
   before_save { email.try(:downcase!) }
@@ -34,6 +36,7 @@ class User < ApplicationRecord
   has_and_belongs_to_many :roles, join_table: :users_roles # obsolete
 
   belongs_to :role, required: false
+  belongs_to :billing_plan, foreign_key: :billing_plan_id
 
   validates :name, length: { maximum: 256 }, presence: true,
                    format: { without: %r{https?://}i }
@@ -197,6 +200,10 @@ class User < ApplicationRecord
   end
 
   private
+
+  def setup
+    self.billing_plan_id = 1 unless billing_plan_id
+  end
 
   # Destory a users rooms when they are removed.
   def destroy_rooms

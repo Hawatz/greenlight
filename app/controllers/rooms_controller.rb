@@ -441,7 +441,7 @@ class RoomsController < ApplicationController
   helper_method :room_limit_exceeded
 
   def global_max_participants_exceeded(opts)
-    limit = current_user.global_max_participants
+    limit = current_user.billing_plan.global_max_participants
 
     user_participants = opts[:max_participants].to_i
     current_user.rooms.reject{ |room| room[:uid] == params[:room_uid] }.each do |room|
@@ -452,11 +452,11 @@ class RoomsController < ApplicationController
   end
 
   def global_duration_exceeded(opts)
-    limit = current_user.global_duration
+    limit = current_user.billing_plan.global_max_duration
 
     user_duration = opts[:duration].to_i
 
-    user_duration > limit
+    current_user.billing_plan.unlimited_duration ? false : user_duration > limit
   end
 
   def record_meeting

@@ -210,7 +210,7 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :image, :password, :password_confirmation,
-      :new_password, :provider, :accepted_terms, :language, :global_max_participants, :global_duration)
+      :new_password, :provider, :accepted_terms, :language, :billing_plan_id)
   end
 
   def send_registration_email

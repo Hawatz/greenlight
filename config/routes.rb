@@ -66,6 +66,11 @@ Rails.application.routes.draw do
     patch 'roles/order', to: 'admins#change_role_order', as: :admin_roles_order
     post '/role/:role_id', to: 'admins#update_role', as: :admin_update_role
     delete 'role/:role_id', to: 'admins#delete_role', as: :admin_delete_role
+    # Billing Plans
+    get '/billing_plans', to: 'admins#billing_plans', as: :admin_billing_plans
+    post '/billing_plan', to: 'admins#new_billing_plan', as: :admin_new_billing_plan
+    post '/change_billing_plan_status', to: 'admins#change_billing_plan_status', as: :admin_change_billing_plan_status
+    delete '/billing_plan', to: 'admins#delete_billing_plan', as: :admin_delete_billing_plan
   end
 
   scope '/themes' do

@@ -135,6 +135,27 @@ en:
     recordings:
       title: Server Recordings
       no_recordings: This server has no recordings.
+    plans:
+      default_plan: You can't delete default billing plan
+      keep: Keep
+      created: Billing Plan successfully created
+      users_in_plan: You can't delete billing plan when it has users
+      status_changed: Billing Plan hidden status successfully updated
+      title: Billing Plans
+      new_plan: New Billing Plan
+      hidden: Hidden
+      open: Open
+      unlimited: Unlimited
+      delete: Delete Billing Plan
+      deleted: Successfully Deleted
+      no_plans: No billing plans found 
+      name: Name
+      max_participants: Max Participants
+      max_duration: Max Duration
+      price: Price
+      unlimited_duration: Unlimited Duration
+      not_blank: Cannot be blank
+      user_plan: User Billing Plan
     roles:
       appear_in_share_list: Include users with this role in the dropdown for sharing rooms
       can_create_rooms: Can create rooms
