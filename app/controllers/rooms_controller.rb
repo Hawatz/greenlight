@@ -37,7 +37,6 @@ class RoomsController < ApplicationController
 
   # POST /
   def create
-    puts "#{params}"
     # Return to root if user is not signed in
     return redirect_to root_path unless current_user
 
