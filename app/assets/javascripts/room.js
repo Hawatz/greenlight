@@ -180,11 +180,19 @@ function showCreateRoom(target) {
   $("#room_access_code").val(null)
 
   $("#createRoomModal form").attr("action", $("body").data('relative-root'))
+  $("#room_unlimited").prop("checked", $("#room_unlimited").data("default"))
   $("#room_mute_on_join").prop("checked", $("#room_mute_on_join").data("default"))
   $("#room_require_moderator_approval").prop("checked", $("#room_require_moderator_approval").data("default"))
   $("#room_anyone_can_start").prop("checked", $("#room_anyone_can_start").data("default"))
   $("#room_all_join_moderator").prop("checked", $("#room_all_join_moderator").data("default"))
   $("#room_recording").prop("checked", $("#room_recording").data("default"))
+  $("#room_unlimited").on("click", function(){
+    if($(this).is(":checked")){
+      $("#create-room-duration").attr("disabled", true)
+    } else {
+      $("#create-room-duration").attr("disabled", false)
+    }
+  })
 
   //show all elements & their children with a create-only class
   $(".create-only").each(function() {
@@ -240,6 +248,7 @@ function showDeleteRoom(target) {
 function updateCurrentSettings(settings_path){
   // Get current room settings and set checkbox
   $.get(settings_path, function(settings) {
+    $("#room_unlimited").prop("checked", $("#room_unlimited").data("default") || settings.unlimitedDuration)
     $("#room_mute_on_join").prop("checked", $("#room_mute_on_join").data("default") || settings.muteOnStart)
     $("#room_require_moderator_approval").prop("checked", $("#room_require_moderator_approval").data("default") || settings.requireModeratorApproval)
     $("#room_anyone_can_start").prop("checked", $("#room_anyone_can_start").data("default") || settings.anyoneCanStart)
@@ -248,6 +257,13 @@ function updateCurrentSettings(settings_path){
     $("#create-room-max-participants").val(settings.maxParticipants)
     $("#create-room-duration").val(settings.duration)
     $("#create-room-welcome").val(settings.welcome)
+    $("#room_unlimited").on("click", function(){
+      if($(this).is(":checked")){
+        $("#create-room-duration").attr("disabled", true)
+      } else {
+        $("#create-room-duration").attr("disabled", false)
+      }
+    })
   })
 }
 

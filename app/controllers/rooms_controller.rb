@@ -364,16 +364,18 @@ class RoomsController < ApplicationController
       "recording": options[:recording] == "1",
       "welcome": options[:welcome],
       "maxParticipants": options[:max_participants],
-      "duration": options[:duration]
+      "duration": options[:duration],
+      "unlimitedDuration": options[:unlimited] == "1"
     }
 
+    puts "#{room_settings}"
     room_settings.to_json
   end
 
   def room_params
     params.require(:room).permit(:name, :auto_join, :mute_on_join, :access_code,
       :require_moderator_approval, :anyone_can_start, :all_join_moderator,
-      :recording, :presentation, :welcome, :duration, :max_participants)
+      :recording, :presentation, :welcome, :duration, :max_participants, :unlimited)
   end
 
   # Find the room from the uid.
@@ -455,6 +457,9 @@ class RoomsController < ApplicationController
     limit = current_user.billing_plan.global_max_duration
 
     user_duration = opts[:duration].to_i
+    current_user.rooms.each do |room|
+      user_duration = user_duration + (JSON.parse(room[:room_settings])[:duration].to_i || 0)
+    end
 
     current_user.billing_plan.unlimited_duration ? false : user_duration > limit
   end
