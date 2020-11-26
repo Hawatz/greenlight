@@ -368,7 +368,6 @@ class RoomsController < ApplicationController
       "unlimitedDuration": options[:unlimited] == "1"
     }
 
-    puts "#{room_settings}"
     room_settings.to_json
   end
 
@@ -445,10 +444,7 @@ class RoomsController < ApplicationController
   def global_max_participants_exceeded(opts)
     limit = current_user.billing_plan.global_max_participants
 
-    user_participants = opts[:max_participants].to_i
-    current_user.rooms.reject{ |room| room[:uid] == params[:room_uid] }.each do |room|
-      user_participants += (JSON.parse(room[:room_settings])["maxParticipants"].to_i || 0)
-    end
+    user_duration = opts[:duration].to_i
 
     user_participants > limit
   end
