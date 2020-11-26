@@ -62,7 +62,6 @@ module BbbServer
   def start_session(room, options = {})
     create_options = {
       maxParticipants: options[:max_participants],
-      duration: options[:duration],
       record: options[:record].to_s,
       logoutURL: options[:meeting_logout_url] || '',
       moderatorPW: room.moderator_pw,
@@ -77,6 +76,7 @@ module BbbServer
 
     create_options[:guestPolicy] = "ASK_MODERATOR" if options[:require_moderator_approval]
     create_options[:welcome] = options[:welcome] if options[:welcome]
+    create_options[:duration] = options[:duration] if options[:duration]
 
     # Send the create request.
     begin

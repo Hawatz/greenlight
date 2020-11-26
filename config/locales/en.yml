@@ -467,7 +467,7 @@ en:
       max_participants: Max Participants
       duration: Duration
       unlimited_duration: Unlimited Duration
-      unlimited_duration_description: Remove room duration limit
+      unlimited_duration_description: No time limit
       welcome: Welcome Message
     rename_room:
       name_placeholder: Enter a new room name...

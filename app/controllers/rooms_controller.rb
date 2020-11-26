@@ -37,6 +37,7 @@ class RoomsController < ApplicationController
 
   # POST /
   def create
+    puts "#{params}"
     # Return to root if user is not signed in
     return redirect_to root_path unless current_user
 
@@ -444,7 +445,10 @@ class RoomsController < ApplicationController
   def global_max_participants_exceeded(opts)
     limit = current_user.billing_plan.global_max_participants
 
-    user_duration = opts[:duration].to_i
+    user_participants = opts[:max_participants].to_i
+    current_user.rooms.reject{ |room| room[:uid] == params[:room_uid] }.each do |room|
+      user_participants += (JSON.parse(room[:room_settings])["maxParticipants"].to_i || 0)
+    end
 
     user_participants > limit
   end
@@ -453,9 +457,6 @@ class RoomsController < ApplicationController
     limit = current_user.billing_plan.global_max_duration
 
     user_duration = opts[:duration].to_i
-    current_user.rooms.each do |room|
-      user_duration = user_duration + (JSON.parse(room[:room_settings])[:duration].to_i || 0)
-    end
 
     current_user.billing_plan.unlimited_duration ? false : user_duration > limit
   end
