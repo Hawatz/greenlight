@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2020_11_24_011343) do
 
   create_table "billing_plans", force: :cascade do |t|
     t.integer "global_max_participants", null: false
-    t.integer "global_max_duration", null: false
+    t.integer "global_max_duration"
     t.float "price", null: false
     t.string "name", null: false
     t.boolean "hidden", default: false

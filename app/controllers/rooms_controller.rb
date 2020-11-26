@@ -453,11 +453,11 @@ class RoomsController < ApplicationController
   end
 
   def global_duration_exceeded(opts)
-    limit = current_user.billing_plan.global_max_duration
-
-    user_duration = opts[:duration].to_i
-
-    current_user.billing_plan.unlimited_duration ? false : user_duration > limit
+    if current_user.billing_plan.unlimited_duration
+      false
+    else
+      opts[:duration].to_i > current_user.billing_plan.global_max_duration
+    end
   end
 
   def record_meeting

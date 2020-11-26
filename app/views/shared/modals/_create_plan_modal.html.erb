@@ -16,9 +16,9 @@
               <%= f.label :global_max_participants, t("administrator.plans.max_participants") %>
               <%= f.number_field :global_max_participants, id: "createPlan", class: "form-control text-center", autocomplete: :off, required: true %>
               <%= f.label :global_max_duration, t("administrator.plans.max_duration") %>
-              <%= f.number_field :global_max_duration, id: "createPlan", class: "form-control text-center", autocomplete: :off, required: true %>
-              <%= f.check_box :unlimited_duration %>
-              <%= f.label :unlimited_duration, t("administrator.plans.unlimited_duration"), id: "createPlan", class: "checkbox inline text-left" %>
+              <%= f.number_field :global_max_duration, id: "max-duration", class: "form-control text-center", autocomplete: :off, required: true %>
+              <%= f.check_box :unlimited_duration, id: "plan-unlimited" %>
+              <%= f.label :unlimited_duration, t("administrator.plans.unlimited_duration"), class: "checkbox inline text-left" %>
             </div>
             <div class="mt-4">
                 <%= f.submit "Create", class: "btn btn-primary btn-block" %>

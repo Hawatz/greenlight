@@ -2,7 +2,7 @@ class CreateBillingPlans < ActiveRecord::Migration[5.2]
   def up 
     create_table :billing_plans do |t|
       t.integer :global_max_participants, null: false
-      t.integer :global_max_duration, null: false
+      t.integer :global_max_duration
       t.float :price, null: false
       t.string :name, null: false
       t.boolean :hidden, default: false
