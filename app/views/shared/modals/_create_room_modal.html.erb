@@ -68,6 +68,15 @@
               </div>
             <% end %>
 
+            <% unlimited_duration = current_user.billing_plan.unlimited_duration || ["admin", "super_admin"].include?(current_user.role.name) %>
+            <% if unlimited_duration %>
+              <label class="custom-switch pl-0 mt-3 mb-3 w-100 text-left d-inline-block">
+                <span class="custom-switch-description"><%= t("modal.room_settings.unlimited_duration_description")%></span>
+                <%= f.check_box :unlimited, class: "custom-switch-input", data: { default: false }, checked: false %>
+                <span class="custom-switch-indicator float-right cursor-pointer"></span>
+              </label>
+            <% end %>
+
             <% mute = room_configuration("Room Configuration Mute On Join") %>
             <% if mute != "disabled" %>
               <label class="custom-switch pl-0 mt-3 mb-3 w-100 text-left d-inline-block <%= "enabled-setting" if mute == "enabled" %>">

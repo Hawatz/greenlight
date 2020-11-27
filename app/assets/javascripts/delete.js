@@ -34,6 +34,10 @@ $(document).on('turbolinks:load', function(){
     })
   }
 
+  $(".delete-plan").click(function(){
+    $("#delete-confirm").parent().attr("action", $(this).data("path"))
+  })
+
   $(".delete-user").click(function(data){
     document.getElementById("delete-checkbox").checked = false
     $("#delete-confirm").prop("disabled", "disabled")
@@ -54,4 +58,5 @@ $(document).on('turbolinks:load', function(){
       $("#delete-confirm").prop("disabled", "disabled")
     }
   })
+
 })

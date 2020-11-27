@@ -18,6 +18,18 @@ $(document).on('turbolinks:load', function(){
   var controller = $("body").data('controller');
   var action = $("body").data('action');
 
+  $("#newPlanButton").click(function(){
+    $("#createPlan").val("")
+  })
+
+  $("#plan-unlimited").on("click", function(){
+    if($(this).is(":checked")){
+      $("#max-duration").attr("disabled", true)
+    } else {
+      $("#max-duration").attr("disabled", false)
+    }
+  })
+
   // Only run on the admins page.
   if (controller == "admins") {
     if(action == "index") {

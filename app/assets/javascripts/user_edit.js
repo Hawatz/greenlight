@@ -23,14 +23,27 @@ $(document).on('turbolinks:load', function(){
       $(window).trigger('load.bs.select.data-api')
     }
 
+    if ($("#plan-dropdown:visible").length == 0){
+      $(window).trigger('load.bs.select.data-api')
+    }
+
     // Check to see if the role dropdown was set up
     if ($("#role-dropdown").length != 0){
       $("#role-dropdown").selectpicker('val', $("#user_role_id").val())
     }
 
+    if ($("#plan-dropdown").length != 0){
+      $("#plan-dropdown").selectpicker('val', $("#user_plan_id").val())
+    }
+
+
     // Update hidden field with new value
     $("#role-dropdown").on("changed.bs.select", function(){
       $("#user_role_id").val($("#role-dropdown").selectpicker('val'))
+    })
+
+    $("#plan-dropdown").on("changed.bs.select", function(){
+      $("#user_plan_id").val($("#plan-dropdown").selectpicker('val'))
     })
 
     // Update hidden field with new value

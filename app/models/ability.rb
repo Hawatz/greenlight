@@ -40,6 +40,10 @@ class Ability
              :approve, :invite, :reset, :undelete, :merge_user], :admin
       end
 
+      if ["admin", "super_admin"].include?(highest_role.name)
+        can [:billing_plans, :new_billing_plan, :delete_billing_plan, :change_billing_plan_status], :admin
+      end
+
       can [:server_recordings, :server_rooms], :admin if highest_role.get_permission("can_manage_rooms_recordings")
 
       if !highest_role.get_permission("can_edit_site_settings") && !highest_role.get_permission("can_edit_roles") &&

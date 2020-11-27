@@ -1,0 +1,31 @@
+<div class="modal fade" id="createPlanModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content text-center">
+      <div class="modal-body">
+        <div class="card-body p-6">
+          <div class="card-title">
+            <h3><%= "Create New Billing Plan" %></h3>
+          </div>
+
+          <%= form_for(:billing_plan, url: admin_new_billing_plan_path) do |f| %>
+            <div class="input-icon mb-2">
+              <%= f.label :name, t("administrator.plans.name") %>
+              <%= f.text_field :name, id: "createPlan", class: "form-control text-center", autocomplete: :off, required: true %>
+              <%= f.label :price, t("administrator.plans.price") %>
+              <%= f.number_field :price, id: "createPlan", class: "form-control text-center", autocomplete: :off, required: true, step: 0.1 %>
+              <%= f.label :global_max_participants, t("administrator.plans.max_participants") %>
+              <%= f.number_field :global_max_participants, id: "createPlan", class: "form-control text-center", autocomplete: :off, required: true %>
+              <%= f.label :global_max_duration, t("administrator.plans.max_duration") %>
+              <%= f.number_field :global_max_duration, id: "max-duration", class: "form-control text-center", autocomplete: :off, required: true %>
+              <%= f.check_box :unlimited_duration, id: "plan-unlimited" %>
+              <%= f.label :unlimited_duration, t("administrator.plans.unlimited_duration"), class: "checkbox inline text-left" %>
+            </div>
+            <div class="mt-4">
+                <%= f.submit "Create", class: "btn btn-primary btn-block" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<div class="container pt-6">
+  <%= render "shared/components/subtitle", subtitle: t("administrator.title"), search: false %>
+
+  <div class="row">
+    <div class="col-lg-3 mb-4">
+      <%= render "admins/components/menu_buttons" %>
+    </div>
+    <div id="plans" class="col-lg-9">
+      <%= render "admins/components/setting_view", setting_id: "plans", setting_title: t("administrator.plans.title"), search: false %>
+    </div>
+  </div>
+</div>
+
+<%= render "shared/modals/delete_plan_modal" %> 
+<%= render "shared/modals/create_plan_modal" %> 

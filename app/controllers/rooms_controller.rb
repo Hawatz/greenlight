@@ -364,7 +364,8 @@ class RoomsController < ApplicationController
       "recording": options[:recording] == "1",
       "welcome": options[:welcome],
       "maxParticipants": options[:max_participants],
-      "duration": options[:duration]
+      "duration": options[:duration],
+      "unlimitedDuration": options[:unlimited] == "1"
     }
 
     room_settings.to_json
@@ -373,7 +374,7 @@ class RoomsController < ApplicationController
   def room_params
     params.require(:room).permit(:name, :auto_join, :mute_on_join, :access_code,
       :require_moderator_approval, :anyone_can_start, :all_join_moderator,
-      :recording, :presentation, :welcome, :duration, :max_participants)
+      :recording, :presentation, :welcome, :duration, :max_participants, :unlimited)
   end
 
   # Find the room from the uid.
@@ -441,7 +442,7 @@ class RoomsController < ApplicationController
   helper_method :room_limit_exceeded
 
   def global_max_participants_exceeded(opts)
-    limit = current_user.global_max_participants
+    limit = current_user.billing_plan.global_max_participants
 
     user_participants = opts[:max_participants].to_i
     current_user.rooms.reject{ |room| room[:uid] == params[:room_uid] }.each do |room|
@@ -452,11 +453,11 @@ class RoomsController < ApplicationController
   end
 
   def global_duration_exceeded(opts)
-    limit = current_user.global_duration
-
-    user_duration = opts[:duration].to_i
-
-    user_duration > limit
+    if current_user.billing_plan.unlimited_duration
+      false
+    else
+      opts[:duration].to_i > current_user.billing_plan.global_max_duration
+    end
   end
 
   def record_meeting

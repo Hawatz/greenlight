@@ -59,16 +59,21 @@
       </span>
     <% end %>
 
+    <%= f.label :billing_plans, t("administrator.plans.user_plan"), class: "form-label mt-5" %>
     <% if current_user.role.get_permission("can_manage_users") %>
-    <%= f.label :global_max_participants, t("settings.account.global_max_participants"), class: "form-label mt-5" %>
-      <%= f.text_field :global_max_participants, class: "form-control", type: "number", min: 1, placeholder: t("settings.account.global_max_participants")%>
-    <% end %>
+      <select id="plan-dropdown" class="selectpicker show-tick" >
+        <% if @user.billing_plan.hidden %>
+          <option value="<%=@user.billing_plan.id%>"><%= @user.billing_plan.name %></option>
+        <% end %>
+        <% plans_options.each do |plan| %>
+          <option value="<%=plan.id%>"><%= plan.name %></option>
+        <% end %>
+      </select>
 
-    <% if current_user.role.get_permission("can_manage_users") %>
-    <%= f.label :global_duration, t("settings.account.global_duration"), class: "form-label mt-5" %>
-      <%= f.text_field :global_duration, class: "form-control", type: "number", min: 1, placeholder: t("settings.account.global_duration")%>
+      <%= f.hidden_field :billing_plan_id, id: "user_plan_id", value: @user.billing_plan.id %>
+    <% else %>
+        <%= plan.name %>
     <% end %>
-
 
     <%= f.label :image, t("settings.account.image"), class: "form-label mt-5" %>
     <div class="row">

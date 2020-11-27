@@ -57,6 +57,10 @@ module UsersHelper
     Role.editable_roles(@user_domain).where("priority >= ?", current_user.role.priority).by_priority
   end
 
+  def plans_options
+    BillingPlan.where(hidden: false)
+  end
+
   # Parses markdown for rendering.
   def markdown(text)
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML,
