@@ -202,7 +202,7 @@ class User < ApplicationRecord
   private
 
   def setup
-    self.billing_plan_id = 1 unless billing_plan_id
+    self.billing_plan_id = BillingPlan::DEFAULT_PLAN_ID unless billing_plan_id
   end
 
   # Destory a users rooms when they are removed.

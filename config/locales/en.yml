@@ -320,6 +320,7 @@ en:
       home: Home
       settings: Profile
       signout: Sign out
+      plans: Service Plans
   home_room: Home Room
   info_update_success: Information successfully updated.
   invalid_credentials: The email and password you entered did not match our records. Try again or click Forgot Password to reset your password.
@@ -561,6 +562,14 @@ en:
     deleted: Deleted
     pending: Pending
     user: User
+  plan:
+    open_plans: Available Service Plans
+    update: Update
+    participants: participants
+    duration: mins max meeting duration
+    unlimited_duration: unlimited duration
+    free_plan: free
+    month: month
   room:
     access_code_required: Please enter a valid access code to join the room
     add_presentation: Add Presentation

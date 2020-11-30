@@ -349,7 +349,7 @@ class AdminsController < ApplicationController
     if billing_plan.users.count.positive?
       flash[:alert] = I18n.t("administrator.plans.users_in_plan")
       return redirect_to admin_billing_plans_path
-    elsif billing_plan.id == 1
+    elsif billing_plan.id == BillingPlan::DEFAULT_PLAN_ID
       flash[:alert] = I18n.t("administrator.plans.default_plan")
       return redirect_to admin_billing_plans_path
     else

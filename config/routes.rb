@@ -89,6 +89,10 @@ Rails.application.routes.draw do
 
   # User resources.
   scope '/u' do
+    # Plans management
+    get '/:user_uid/edit_plan', to: 'users#edit_plan', as: :edit_plan
+    post '/:user_uid/edit_plan', to: 'users#update_plan', as: :update_plan
+
     # Handles login of greenlight provider accounts.
     post '/login', to: 'sessions#create', as: :create_session
 

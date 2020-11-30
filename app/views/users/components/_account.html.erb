@@ -72,7 +72,7 @@
 
       <%= f.hidden_field :billing_plan_id, id: "user_plan_id", value: @user.billing_plan.id %>
     <% else %>
-        <%= plan.name %>
+        <%= @user.billing_plan.name %>
     <% end %>
 
     <%= f.label :image, t("settings.account.image"), class: "form-label mt-5" %>

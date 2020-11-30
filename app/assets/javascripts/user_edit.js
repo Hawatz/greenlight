@@ -17,7 +17,7 @@
 $(document).on('turbolinks:load', function(){
   var controller = $("body").data('controller');
   var action = $("body").data('action');
-  if ((controller == "admins" && action == "edit_user") || (controller == "users" && action == "edit")) {
+  if ((controller == "admins" && action == "edit_user") || (controller == "users" && action == "edit") || (controller == "users" && action == "edit_plan")) {
     // Hack to make it play nice with turbolinks
     if ($("#role-dropdown:visible").length == 0){
       $(window).trigger('load.bs.select.data-api')

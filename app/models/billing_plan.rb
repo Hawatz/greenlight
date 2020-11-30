@@ -5,6 +5,8 @@ class BillingPlan < ApplicationRecord
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :name, length: { maximum: 256 }, presence: true
 
+  DEFAULT_PLAN_ID = 1
+
   def unlimited_duration?
     unlimited_duration
   end
