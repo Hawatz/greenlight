@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   include Recorder
   include Rolify
 
-  before_action :find_user, only: [:edit, :change_password, :delete_account, :update, :update_password]
+  before_action :find_user, only: [:edit, :change_password, :delete_account, :update, :update_password, :edit_plan]
   before_action :ensure_unauthenticated_except_twitter, only: [:create]
   before_action :check_user_signup_allowed, only: [:create]
   before_action :check_admin_of, only: [:edit, :change_password, :delete_account]
@@ -195,6 +195,15 @@ class UsersController < ApplicationController
       current_user.update_attributes(accepted_terms: true)
       login(current_user)
     end
+  end
+
+  def edit_plan
+    redirect_to root_path unless current_user
+  end
+
+  def update_plan
+    current_user.update_attributes(user_params)
+    redirect_to current_user.main_room, flash: { success: I18n.t("info_update_success") }
   end
 
   private

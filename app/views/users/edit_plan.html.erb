@@ -1,0 +1,40 @@
+<%= form_for @user, url: update_plan_path, method: :post do |f|  %>
+  <div class="background pb-1">
+    <div class="container">
+      <div class="row pt-7 pt-sm-9">
+        <div class="col-lg-9 col-sm-12">
+          <div class="form-group">
+           <h1 contenteditable=false id="user-text" class="display-3 text-left mb-3 font-weight-400"><%= t("plan.open_plans") %></h1>
+            <%= f.label :plans, t("administrator.plans.user_plan"), class: "form-label mt-5" %>
+            <select id="plan-dropdown" class="selectpicker show-tick" >
+              <% if @user.billing_plan.hidden %>
+                <option value="<%= @user.billing_plan.id%>"><%= @user.billing_plan.name %></option>
+              <% end %>
+              <% plans_options.each do |plan| %>
+                <option value="<%=plan.id%>">
+                  <%= "#{plan.name}," %>
+                  <%= "#{plan.global_max_participants} #{t("plan.participants")}," %>
+                  <% if plan.global_max_duration %>
+                    <%= "#{plan.global_max_duration} #{t("plan.duration")}," %>
+                  <% else %>
+                    <%= "#{t("plan.unlimited_duration")}," %>
+                  <% end %>
+                  <% if plan.price > 0 %>
+                    <%= "$#{plan.price}/#{t("plan.month")}" %>
+                  <% else %>
+                    <%= "#{t("plan.free_plan")}" %>
+                  <% end %>
+                </option>
+              <% end %>
+            </select>
+
+            <%= f.hidden_field :billing_plan_id, id: "user_plan_id", value: @user.billing_plan.id %>
+          </div>
+            <div class="card-footer">
+              <%= f.submit t("plan.update"), class: "btn btn-primary float-right ml-4" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

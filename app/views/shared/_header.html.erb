@@ -27,6 +27,13 @@
       <div class="d-flex ml-auto">
         <% if current_user %>
 
+          <% if current_user.has_role?(:user) %>
+            <% plans_page = params[:controller] == "users" && params[:action] == "edit_plan" ? "active" : "" %>
+            <%= link_to edit_plan_path(current_user), class: "px-3 mx-1 mt-1 header-nav #{plans_page}" do %>
+              <i class="fas fa-address-card"></i><span class="d-none d-sm-inline-block"><%= t("header.dropdown.plans") %></span>
+            <% end %>
+          <% end %>
+
           <%= link_to home_page, class: "px-3 mx-1 mt-1 header-nav #{active_home}" do %>
             <i class="fas fa-home pr-1 "></i><span class="d-none d-sm-inline-block"><%= t("header.dropdown.home") %></span>
           <% end %>

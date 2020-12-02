@@ -43,7 +43,10 @@ class RoomsController < ApplicationController
     # Check if the user has not exceeded the room limit
     return redirect_to current_user.main_room, flash: { alert: I18n.t("room.room_limit") } if room_limit_exceeded
 
-    return redirect_to current_user.main_room, flash: { alert: I18n.t("room.create_room_error") } if room_params[:max_participants].to_i < 1 or room_params[:duration].to_i < 1
+    return redirect_to current_user.main_room, flash: { alert: I18n.t("room.create_room_error") } if room_params[:max_participants].to_i < 1
+
+    unlimited_enabled = room_params[:unlimited] == "1"
+    return redirect_to current_user.main_room, flash: { alert: I18n.t("room.create_room_error") } if !unlimited_enabled && room_params[:duration].to_i < 1
 
     if room_params[:max_participants].to_i > 100
       return redirect_to current_user.main_room, flash: { alert: I18n.t("room.max_participants_limit") }
