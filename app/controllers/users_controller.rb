@@ -202,11 +202,54 @@ class UsersController < ApplicationController
   end
 
   def update_plan
-    current_user.update_attributes(user_params)
-    redirect_to current_user.main_room, flash: { success: I18n.t("info_update_success") }
+    billing_plan = BillingPlan.find(params[:user][:billing_plan_id])
+
+    customer = create_or_retrieve_customer(current_user)
+
+    if params[:user][:billing_plan_id].to_i == BillingPlan::DEFAULT_PLAN_ID
+      Stripe::Subscription.delete(current_user.subscription_id)
+      change_plan(user_params, "")
+    else
+      begin
+        subscription = Stripe::Subscription.create(customer: customer.id, items: [{ plan: billing_plan.name }])
+        change_plan(user_params, subscription.id)
+      rescue Stripe::CardError => e
+        flash[:error] = e.message
+        redirect_to root_path
+      end
+    end
   end
 
   private
+
+  def create_or_retrieve_customer(user)
+    customer = retrieve_stripe_customer(user)
+
+    if customer.nil?
+      customer = Stripe::Customer.create email: params[:stripeEmail], source: params[:stripeToken]
+      user.update! stripe_token: customer.id
+    end
+
+    customer
+  end
+
+  def retrieve_stripe_customer(user)
+    return nil if user.stripe_token.nil?
+
+    begin
+      customer = Stripe::Customer.retrieve user.stripe_token
+      return customer
+    rescue Stripe::InvalidRequestError
+      user.update! stripe_token: nil
+      return nil
+    end
+  end
+
+  def change_plan(attrs, subscription_id)
+    attrs[:subscription_id] = subscription_id
+    current_user.update_attributes(attrs)
+    redirect_to current_user.main_room, flash: { success: I18n.t("info_update_success") }
+  end
 
   def find_user
     @user = User.find_by(uid: params[:user_uid])

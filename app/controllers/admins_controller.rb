@@ -339,6 +339,7 @@ class AdminsController < ApplicationController
   def new_billing_plan
     permitted = params[:billing_plan].permit(:price, :global_max_duration, :global_max_participants, :name, :unlimited_duration)
     billing_plan = BillingPlan.new(permitted)
+    Stripe::Plan.create amount: billing_plan.price.to_i * 100, interval: 'month', product: ENV['STRIPE_PRODUCT_ID'], currency: 'usd', id: billing_plan.name
     billing_plan.save!
     redirect_to admin_billing_plans_path, flash: { success: I18n.t("administrator.plans.created") }
   end
@@ -353,6 +354,7 @@ class AdminsController < ApplicationController
       flash[:alert] = I18n.t("administrator.plans.default_plan")
       return redirect_to admin_billing_plans_path
     else
+      Stripe::Plan.delete billing_plan.name
       billing_plan.delete
     end
 

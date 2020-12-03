@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_24_011343) do
+ActiveRecord::Schema.define(version: 2020_12_04_143928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 2020_11_24_011343) do
     t.boolean "unlimited_duration", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "stripe_plan_id"
   end
 
   create_table "features", id: :serial, force: :cascade do |t|
@@ -157,6 +158,8 @@ ActiveRecord::Schema.define(version: 2020_11_24_011343) do
     t.boolean "deleted", default: false, null: false
     t.bigint "role_id"
     t.bigint "billing_plan_id"
+    t.string "stripe_token"
+    t.string "subscription_id"
     t.index ["billing_plan_id"], name: "index_users_on_billing_plan_id"
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["deleted"], name: "index_users_on_deleted"

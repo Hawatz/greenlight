@@ -58,7 +58,7 @@ module UsersHelper
   end
 
   def plans_options
-    BillingPlan.where(hidden: false)
+    BillingPlan.where(["hidden = ? and id != ?", false, BillingPlan::DEFAULT_PLAN_ID])
   end
 
   # Parses markdown for rendering.

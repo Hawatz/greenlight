@@ -570,6 +570,7 @@ en:
     unlimited_duration: unlimited duration
     free_plan: free
     month: month
+    default: Reset to default
   room:
     access_code_required: Please enter a valid access code to join the room
     add_presentation: Add Presentation

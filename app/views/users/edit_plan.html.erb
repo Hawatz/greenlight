@@ -4,8 +4,40 @@
       <div class="row pt-7 pt-sm-9">
         <div class="col-lg-9 col-sm-12">
           <div class="form-group">
-           <h1 contenteditable=false id="user-text" class="display-3 text-left mb-3 font-weight-400"><%= t("plan.open_plans") %></h1>
             <%= f.label :plans, t("administrator.plans.user_plan"), class: "form-label mt-5" %>
+            <%= "#{@user.billing_plan.name}," %>
+            <%= "#{@user.billing_plan.global_max_participants} #{t("plan.participants")}," %>
+            <% if @user.billing_plan.global_max_duration %>
+              <%= "#{@user.billing_plan.global_max_duration} #{t("plan.duration")}," %>
+            <% else %>
+              <%= "#{t("plan.unlimited_duration")}," %>
+            <% end %>
+            <% if @user.billing_plan.price > 0 %>
+              <%= "$#{@user.billing_plan.price}/#{t("plan.month")}" %>
+            <% else %>
+              <%= "#{t("plan.free_plan")}" %>
+            <% end %>
+            <br>
+            <br>
+            <% if @user.billing_plan.id != BillingPlan::DEFAULT_PLAN_ID %>
+              <%= f.submit t("plan.default"), class: "btn btn-primary float-left ml-4" %>
+            <% end %>
+
+            <%= f.hidden_field :billing_plan_id, value: BillingPlan::DEFAULT_PLAN_ID %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<%= form_for @user, url: update_plan_path, method: :post do |f|  %>
+  <div class="background pb-1">
+    <div class="container">
+      <div class="row pt-7 pt-sm-9">
+        <div class="col-lg-9 col-sm-12">
+          <div class="form-group">
+            <%= f.label :plans, t("plan.open_plans"), class: "form-label mt-5" %>
             <select id="plan-dropdown" class="selectpicker show-tick" >
               <% if @user.billing_plan.hidden %>
                 <option value="<%= @user.billing_plan.id%>"><%= @user.billing_plan.name %></option>
@@ -31,7 +63,18 @@
             <%= f.hidden_field :billing_plan_id, id: "user_plan_id", value: @user.billing_plan.id %>
           </div>
             <div class="card-footer">
-              <%= f.submit t("plan.update"), class: "btn btn-primary float-right ml-4" %>
+              <article>
+              <% if flash[:error].present? %>
+                <div id="error_explanation">
+                  <p><%= flash[:error] %></p>
+                </div>
+              <% end %>
+              </article>
+              <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+              data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+              data-description="A month's subscription"
+              data-email="<%= @user.email %>"
+              data-locale="auto"></script>
           </div>
         </div>
       </div>
